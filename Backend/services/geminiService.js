@@ -3,20 +3,20 @@ const { GoogleGenerativeAI } = require('@google/generative-ai')
 let genAI = null
 
 const getClient = () => {
-    if (!genAI) {
-        if (!process.env.GEMINI_API_KEY) throw new Error('GEMINI_API_KEY not set in .env')
-        genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
-    }
-    return genAI
+  if (!genAI) {
+    if (!process.env.GEMINI_API_KEY) throw new Error('GEMINI_API_KEY not set in .env')
+    genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
+  }
+  return genAI
 }
 
 /**
  * Generate a full day-wise travel itinerary using Gemini
  */
 const generateItinerary = async ({ destination, days, budget, currency, travelers, tripType }) => {
-    const model = getClient().getGenerativeModel({ model: 'gemini-2.5-flash' })
+  const model = getClient().getGenerativeModel({ model: 'gemini-3-flash-preview' })
 
-    const prompt = `
+  const prompt = `
 You are an expert travel planner. Generate a detailed ${days}-day travel itinerary for the following trip.
 
 Trip Details:
@@ -61,21 +61,21 @@ Return ONLY a valid JSON object (no markdown, no code blocks) with this exact st
 Make the itinerary realistic, specific, and budget-conscious. Include actual place names, restaurants, and attractions.
 `
 
-    const result = await model.generateContent(prompt)
-    const text = result.response.text()
+  const result = await model.generateContent(prompt)
+  const text = result.response.text()
 
-    // Strip any accidental markdown fences
-    const clean = text.replace(/```json|```/g, '').trim()
-    return JSON.parse(clean)
+  // Strip any accidental markdown fences
+  const clean = text.replace(/```json|```/g, '').trim()
+  return JSON.parse(clean)
 }
 
 /**
  * Generate AI packing list based on destination weather and trip type
  */
 const generatePackingList = async ({ destination, days, tripType, weather }) => {
-    const model = getClient().getGenerativeModel({ model: 'gemini-2.5-flash' })
+  const model = getClient().getGenerativeModel({ model: 'gemini-3-flash-preview' })
 
-    const prompt = `
+  const prompt = `
 Generate a smart packing list for a ${days}-day ${tripType} trip to ${destination}.
 Weather: ${weather || 'typical for the destination'}.
 
@@ -90,18 +90,18 @@ Return ONLY valid JSON (no markdown):
 }
 `
 
-    const result = await model.generateContent(prompt)
-    const text = result.response.text().replace(/```json|```/g, '').trim()
-    return JSON.parse(text)
+  const result = await model.generateContent(prompt)
+  const text = result.response.text().replace(/```json|```/g, '').trim()
+  return JSON.parse(text)
 }
 
 /**
  * Generate visa information using Gemini
  */
 const getVisaInfo = async ({ fromCountry, toCountry }) => {
-    const model = getClient().getGenerativeModel({ model: 'gemini-2.5-flash' })
+  const model = getClient().getGenerativeModel({ model: 'gemini-3-flash-preview' })
 
-    const prompt = `
+  const prompt = `
 Provide current visa information for a citizen of ${fromCountry} travelling to ${toCountry}.
 
 Return ONLY valid JSON (no markdown):
@@ -120,35 +120,35 @@ Return ONLY valid JSON (no markdown):
 }
 `
 
-    const result = await model.generateContent(prompt)
-    const text = result.response.text().replace(/```json|```/g, '').trim()
-    return JSON.parse(text)
+  const result = await model.generateContent(prompt)
+  const text = result.response.text().replace(/```json|```/g, '').trim()
+  return JSON.parse(text)
 }
 
 /**
  * AI chat assistant for travel queries
  */
 const travelChat = async ({ message, context }) => {
-    const model = getClient().getGenerativeModel({ model: 'gemini-2.5-flash' })
+  const model = getClient().getGenerativeModel({ model: 'gemini-3-flash-preview' })
 
-    const systemPrompt = `
+  const systemPrompt = `
 You are a knowledgeable and friendly travel assistant for Smart Travel Companion app.
 You help users with trip planning, travel tips, visa information, local culture, safety advice, and budget planning.
 Context about the user: ${JSON.stringify(context || {})}
 Keep responses concise, practical, and helpful. Use emojis sparingly.
 `
 
-    const result = await model.generateContent(`${systemPrompt}\n\nUser: ${message}`)
-    return result.response.text()
+  const result = await model.generateContent(`${systemPrompt}\n\nUser: ${message}`)
+  return result.response.text()
 }
 
 /**
  * Generate cultural tips for a destination
  */
 const getCultureTips = async ({ destination }) => {
-    const model = getClient().getGenerativeModel({ model: 'gemini-2.5-flash' })
+  const model = getClient().getGenerativeModel({ model: 'gemini-3-flash-preview' })
 
-    const prompt = `
+  const prompt = `
 Provide cultural tips and local knowledge for visiting ${destination}.
 
 Return ONLY valid JSON (no markdown):
@@ -165,9 +165,9 @@ Return ONLY valid JSON (no markdown):
 }
 `
 
-    const result = await model.generateContent(prompt)
-    const text = result.response.text().replace(/```json|```/g, '').trim()
-    return JSON.parse(text)
+  const result = await model.generateContent(prompt)
+  const text = result.response.text().replace(/```json|```/g, '').trim()
+  return JSON.parse(text)
 }
 
 module.exports = { generateItinerary, generatePackingList, getVisaInfo, travelChat, getCultureTips }
