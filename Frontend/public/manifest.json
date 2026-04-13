@@ -1,0 +1,49 @@
+{
+  "name": "Smart Travel Companion",
+  "short_name": "STC Travel",
+  "description": "AI-powered travel planning, budgeting, safety alerts, and more — all in one app.",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "categories": ["travel", "lifestyle", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "AI Trip Planner",
+      "short_name": "Planner",
+      "description": "Generate an AI-powered travel itinerary",
+      "url": "/dashboard/planner",
+      "icons": [{ "src": "/icons/icon-192.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "SOS Safety",
+      "short_name": "SOS",
+      "description": "Emergency contacts and alerts",
+      "url": "/dashboard/safety",
+      "icons": [{ "src": "/icons/icon-192.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Budget Tracker",
+      "short_name": "Budget",
+      "description": "Track your travel expenses",
+      "url": "/dashboard/budget",
+      "icons": [{ "src": "/icons/icon-192.svg", "sizes": "192x192" }]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+# Ignore test and scratch files
+test_*.js
+*.test.js
+*.spec.js
+*.log
+
+# Ignore uploads and static files
+uploads/
+public/
+dist/
+
+# Ignore docs
+README.md
+*.md
