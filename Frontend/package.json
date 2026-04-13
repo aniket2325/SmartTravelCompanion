@@ -14,6 +14,7 @@
     "@tailwindcss/vite": "^4.2.2",
     "axios": "1.7.2",
     "clsx": "2.1.1",
+    "tailwindcss": "^4.0.0",
     "firebase": "^12.12.0",
     "framer-motion": "11.3.0",
     "leaflet": "^1.9.4",
@@ -26,9 +27,6 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "4.3.1",
-    "autoprefixer": "10.4.19",
-    "postcss": "8.4.40",
-    "tailwindcss": "^3.4.7",
     "vite": "5.3.4"
   }
 }
