@@ -9,7 +9,7 @@
 
 import axios from 'axios'
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+const BASE_URL = import.meta.env.VITE_API_URL || 'https://smart-travel-companion-backend.vercel.app/api'
 
 // ── Axios instances ──────────────────────────────────────────────────────────
 const http = axios.create({
@@ -50,47 +50,47 @@ aiHttp.interceptors.response.use((response) => response, handleResponseError)
 // ── Auth ─────────────────────────────────────────────────────────────────────
 export const authAPI = {
   register: (data) => http.post('/auth/register', data),
-  login:    (data) => http.post('/auth/login', data),
+  login: (data) => http.post('/auth/login', data),
   socialLogin: (data) => http.post('/auth/social-login', data),
-  getMe:    ()     => http.get('/auth/me'),
-  updateProfile:  (data) => http.put('/auth/profile', data),
+  getMe: () => http.get('/auth/me'),
+  updateProfile: (data) => http.put('/auth/profile', data),
   changePassword: (data) => http.put('/auth/change-password', data),
 }
 
 // ── AI (Gemini) ──────────────────────────────────────────────────────────────
 export const aiAPI = {
   generateItinerary: (data) => aiHttp.post('/ai/itinerary', data),
-  generatePackingList:(data) => aiHttp.post('/ai/packing-list', data),
-  getVisaInfo:       (data) => aiHttp.post('/ai/visa-info', data),
-  chat:              (data) => aiHttp.post('/ai/chat', data),
-  getCultureTips:    (data) => aiHttp.post('/ai/culture', data),
+  generatePackingList: (data) => aiHttp.post('/ai/packing-list', data),
+  getVisaInfo: (data) => aiHttp.post('/ai/visa-info', data),
+  chat: (data) => aiHttp.post('/ai/chat', data),
+  getCultureTips: (data) => aiHttp.post('/ai/culture', data),
 }
 
 // ── Trips ────────────────────────────────────────────────────────────────────
 export const tripsAPI = {
-  getAll:  (params) => http.get('/trips', { params }),
-  getOne:  (id)     => http.get(`/trips/${id}`),
-  create:  (data)   => http.post('/trips', data),
-  update:  (id, data) => http.put(`/trips/${id}`, data),
-  delete:  (id)     => http.delete(`/trips/${id}`),
+  getAll: (params) => http.get('/trips', { params }),
+  getOne: (id) => http.get(`/trips/${id}`),
+  create: (data) => http.post('/trips', data),
+  update: (id, data) => http.put(`/trips/${id}`, data),
+  delete: (id) => http.delete(`/trips/${id}`),
 }
 
 // ── Expenses ─────────────────────────────────────────────────────────────────
 export const expensesAPI = {
-  getAll:   (params) => http.get('/expenses', { params }),
-  getSummary:(params)=> http.get('/expenses/summary', { params }),
-  create:   (data)   => http.post('/expenses', data),
-  update:   (id, data) => http.put(`/expenses/${id}`, data),
-  delete:   (id)     => http.delete(`/expenses/${id}`),
+  getAll: (params) => http.get('/expenses', { params }),
+  getSummary: (params) => http.get('/expenses/summary', { params }),
+  create: (data) => http.post('/expenses', data),
+  update: (id, data) => http.put(`/expenses/${id}`, data),
+  delete: (id) => http.delete(`/expenses/${id}`),
 }
 
 // ── Documents ────────────────────────────────────────────────────────────────
 export const documentsAPI = {
-  getAll:   () => http.get('/documents'),
-  upload:   (formData) => http.post('/documents/upload', formData, {
+  getAll: () => http.get('/documents'),
+  upload: (formData) => http.post('/documents/upload', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   }),
-  delete:   (id) => http.delete(`/documents/${id}`),
+  delete: (id) => http.delete(`/documents/${id}`),
   download: (id) => http.get(`/documents/${id}/download`, { responseType: 'blob' }),
 }
 
@@ -101,32 +101,32 @@ export const weatherAPI = {
 
 // ── Currency ─────────────────────────────────────────────────────────────────
 export const currencyAPI = {
-  getRates:    (params) => http.get('/currency/rates', { params }),
-  convert:     (params) => http.get('/currency/convert', { params }),
-  getPopular:  (params) => http.get('/currency/popular', { params }),
+  getRates: (params) => http.get('/currency/rates', { params }),
+  convert: (params) => http.get('/currency/convert', { params }),
+  getPopular: (params) => http.get('/currency/popular', { params }),
 }
 
 // ── Places ───────────────────────────────────────────────────────────────────
 export const placesAPI = {
-  getNearby:  (params) => http.get('/places/nearby', { params }),
-  getDetails: (placeId)=> http.get(`/places/details/${placeId}`),
-  geocode:    (params) => http.get('/places/geocode', { params }),
+  getNearby: (params) => http.get('/places/nearby', { params }),
+  getDetails: (placeId) => http.get(`/places/details/${placeId}`),
+  geocode: (params) => http.get('/places/geocode', { params }),
 }
 
 // ── Safety ───────────────────────────────────────────────────────────────────
 export const safetyAPI = {
-  getContacts:   ()        => http.get('/safety/contacts'),
-  addContact:    (data)    => http.post('/safety/contacts', data),
-  removeContact: (id)      => http.delete(`/safety/contacts/${id}`),
-  triggerSOS:    (data)    => http.post('/safety/sos', data),
-  getNumbers:    (params)  => http.get('/safety/numbers', { params }),
+  getContacts: () => http.get('/safety/contacts'),
+  addContact: (data) => http.post('/safety/contacts', data),
+  removeContact: (id) => http.delete(`/safety/contacts/${id}`),
+  triggerSOS: (data) => http.post('/safety/sos', data),
+  getNumbers: (params) => http.get('/safety/numbers', { params }),
 }
 
 // ── Rewards ──────────────────────────────────────────────────────────────────
 export const rewardsAPI = {
-  get:        () => http.get('/rewards'),
+  get: () => http.get('/rewards'),
   awardBadge: (badgeId) => http.post('/rewards/award-badge', { badgeId }),
-  addXP:      (amount, reason) => http.post('/rewards/add-xp', { amount, reason }),
+  addXP: (amount, reason) => http.post('/rewards/add-xp', { amount, reason }),
 }
 
 // ── Health ───────────────────────────────────────────────────────────────────

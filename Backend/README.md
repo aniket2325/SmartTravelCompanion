@@ -78,7 +78,7 @@ npm run dev     # Development with nodemon
 npm start       # Production
 ```
 
-Server starts at: `http://localhost:5000`
+Server starts at: `https://smart-travel-companion-backend.vercel.app`
 
 ---
 
@@ -163,7 +163,7 @@ Server starts at: `http://localhost:5000`
 ### Step 1 — Add env var to frontend
 In your frontend `.env`:
 ```
-VITE_API_URL=http://localhost:5000/api
+VITE_API_URL=https://smart-travel-companion-backend.vercel.app/api
 ```
 
 ### Step 2 — Copy integration files
@@ -201,5 +201,5 @@ setExpenses(res.data.data)
 
 ## Health Check
 ```
-GET http://localhost:5000/api/health
+GET https://smart-travel-companion-backend.vercel.app/api/health
 ```
