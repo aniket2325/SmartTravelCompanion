@@ -84,9 +84,9 @@ const buildTripGeneratedEmail = ({ userName, destination, days, budget, currency
       
       <!-- CTA -->
       <div style="text-align:center;margin:28px 0;">
-        <a href="${process.env.CLIENT_URL || 'http://localhost:5173'}/dashboard/planner" 
+        <a href="${process.env.CLIENT_URL || 'https://smart-travel-comp.vercel.app'}/dashboard/bookings" 
            style="display:inline-block;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;padding:14px 32px;border-radius:12px;text-decoration:none;font-size:14px;font-weight:800;box-shadow:0 4px 15px rgba(37,99,235,0.3);">
-          ✨ View Full Itinerary
+          ✨ View Your Trip in Bookings
         </a>
       </div>
       

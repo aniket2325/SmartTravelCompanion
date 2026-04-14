@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, Map, Shield, Wallet, FileText,
   Globe, Plane, Users, Cloud, Trophy, LogOut,
-  ChevronLeft, ChevronRight, Menu, X, Sparkles, Coins, Settings
+  ChevronLeft, ChevronRight, Menu, X, Sparkles, Coins, Settings, Compass
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../../context/AuthContext'
@@ -21,6 +21,7 @@ const NAV_ITEMS = [
   { to: '/dashboard/weather', icon: Cloud, label: 'Weather' },
   { to: '/dashboard/currency', icon: Coins, label: 'Currency' },
   { to: '/dashboard/bookings', icon: Plane, label: 'Bookings' },
+  { to: '/dashboard/explorer', icon: Compass, label: 'Explorer' },
   { to: '/dashboard/rewards', icon: Trophy, label: 'Rewards' },
   { to: '/dashboard/profile', icon: Settings, label: 'Profile' },
 ]

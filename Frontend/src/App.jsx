@@ -19,6 +19,7 @@ import Bookings from './pages/Bookings'
 import Rewards from './pages/Rewards'
 import CurrencyConverter from './pages/CurrencyConverter'
 import ProfileSettings from './pages/ProfileSettings'
+import Explorer from './pages/Explorer'
 
 function ProtectedRoute({ children }) {
   const { user } = useAuth()
@@ -32,26 +33,27 @@ function PublicRoute({ children }) {
   return children
 }
 
+import { useEffect } from 'react'
+
 function RouteEffect() {
   const location = useLocation()
   
   // Set dynamic document title and handle dark mode
-  import('react').then(({ useEffect }) => {
-    useEffect(() => {
-      // Title
-      const path = location.pathname.split('/').pop() || 'welcome'
-      const title = path.charAt(0).toUpperCase() + path.slice(1)
-      document.title = title === 'Welcome' ? 'Smart Travel Companion' : `${title} | STC`
+  useEffect(() => {
+    // Title
+    const path = location.pathname.split('/').pop() || 'welcome'
+    const title = path.charAt(0).toUpperCase() + path.slice(1)
+    document.title = title === 'Welcome' ? 'Smart Travel Companion' : `${title} | STC`
 
-      // Dark mode initialization (stub for future full theme logic)
-      const isDark = localStorage.getItem('stc_darkmode') === 'true'
-      if (isDark) {
-        document.documentElement.classList.add('dark')
-      } else {
-        document.documentElement.classList.remove('dark')
-      }
-    }, [location.pathname])
-  })
+    // Dark mode initialization (stub for future full theme logic)
+    const isDark = localStorage.getItem('stc_darkmode') === 'true'
+    if (isDark) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [location.pathname])
+
   return null
 }
 
@@ -79,6 +81,7 @@ function AppRoutes() {
           <Route path="currency" element={<CurrencyConverter />} />
           <Route path="bookings" element={<Bookings />} />
           <Route path="rewards" element={<Rewards />} />
+          <Route path="explorer" element={<Explorer />} />
           <Route path="profile" element={<ProfileSettings />} />
         </Route>
 

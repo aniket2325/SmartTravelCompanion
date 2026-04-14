@@ -2,7 +2,7 @@
   "name": "Smart Travel Companion",
   "short_name": "STC Travel",
   "description": "AI-powered travel planning, budgeting, safety alerts, and more — all in one app.",
-  "start_url": "/dashboard",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#f8fafc",
   "theme_color": "#3b82f6",

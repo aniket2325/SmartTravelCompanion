@@ -7,8 +7,8 @@ const STATIC_ASSETS = [
   '/index.html',
   '/manifest.json',
   '/favicon.svg',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
+  '/icons/icon-192.svg',
+  '/icons/icon-512.svg',
 ]
 
 // Install: Pre-cache essential static assets
