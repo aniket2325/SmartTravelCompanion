@@ -32,8 +32,8 @@ const register = async (req, res, next) => {
 
     const user = await User.create({ name, email, password })
 
-    // Send welcome email (non-blocking)
-    sendWelcomeEmail({ to: email, userName: name })
+    // Send welcome email
+    await sendWelcomeEmail({ to: email, userName: name })
       .catch(err => console.error('Welcome email error:', err))
 
     sendToken(user, 201, res)
@@ -76,7 +76,7 @@ const socialLogin = async (req, res, next) => {
       
       user = await User.create({ name: name || 'Explorer', email, password: dummyPassword })
       
-      sendWelcomeEmail({ to: email, userName: name || 'Explorer' })
+      await sendWelcomeEmail({ to: email, userName: name || 'Explorer' })
         .catch(err => console.error('Welcome email error:', err))
     }
 

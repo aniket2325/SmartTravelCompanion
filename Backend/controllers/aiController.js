@@ -30,10 +30,11 @@ const generateItinerary = async (req, res, next) => {
     // Award XP for generating itinerary
     await User.findByIdAndUpdate(req.user._id, { $inc: { xp: 50 } })
 
-    // Send email notification (non-blocking)
+    // Send email notification
     const fullUser = await User.findById(req.user._id)
     if (fullUser?.preferences?.notifications !== false) {
-      sendTripGeneratedEmail({
+      // Added await to prevent Vercel execution environment from freezing network requests
+      await sendTripGeneratedEmail({
         to: fullUser.email,
         userName: fullUser.name,
         destination,
