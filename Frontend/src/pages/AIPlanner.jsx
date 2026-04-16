@@ -24,7 +24,7 @@ const typeColors = {
 }
 
 export default function AIPlanner() {
-  const [form, setForm]       = useState({ destination: '', days: '5', budget: '', travelers: '2', type: 'Cultural', currency: 'INR' })
+  const [form, setForm]       = useState({ origin: '', destination: '', days: '5', budget: '', travelers: '2', type: 'Cultural', currency: 'INR', transport: 'Flight' })
   const [loading, setLoading] = useState(false)
   const [itinerary, setItinerary] = useState(null)
   const [expanded, setExpanded]   = useState([])
@@ -41,12 +41,14 @@ export default function AIPlanner() {
     setItinerary(null)
     try {
       const res = await aiAPI.generateItinerary({
+        origin: form.origin,
         destination: form.destination,
         days:       parseInt(form.days),
         budget:     parseFloat(form.budget),
         currency:   form.currency,
         travelers:  parseInt(form.travelers),
         tripType:   form.type,
+        preferredTransport: form.transport,
       })
       const data = res.data.data
       setItinerary(data)
@@ -68,7 +70,14 @@ export default function AIPlanner() {
         <h2 className="font-bold text-sm text-slate-500 uppercase tracking-wider">Plan Your Trip</h2>
         <div className="grid md:grid-cols-2 gap-4">
           <div>
-            <label className="text-xs font-semibold text-slate-500 mb-1.5 block">Destination *</label>
+            <label className="text-xs font-semibold text-slate-500 mb-1.5 block">From</label>
+            <div className="relative">
+              <MapPin size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+              <input className="input-field input-with-icon" placeholder="e.g. New York, USA" value={form.origin} onChange={e => set('origin', e.target.value)} />
+            </div>
+          </div>
+          <div>
+            <label className="text-xs font-semibold text-slate-500 mb-1.5 block">To *</label>
             <div className="relative">
               <MapPin size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
               <input className="input-field input-with-icon" placeholder="e.g. Tokyo, Japan" value={form.destination} onChange={e => set('destination', e.target.value)} />
@@ -108,6 +117,18 @@ export default function AIPlanner() {
             {TRIP_TYPES.map(t => (
               <button key={t} onClick={() => set('type', t)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all duration-200 ${form.type === t ? 'bg-blue-50 border-blue-200 text-blue-600 shadow-sm' : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'}`}>
+                {t}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <label className="text-xs font-semibold text-slate-500 mb-2 block">Preferred Transport</label>
+          <div className="flex flex-wrap gap-2">
+            {['Flight', 'Train', 'Bus'].map(t => (
+              <button key={t} onClick={() => set('transport', t)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all duration-200 ${form.transport === t ? 'bg-orange-50 border-orange-200 text-orange-600 shadow-sm' : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'}`}>
                 {t}
               </button>
             ))}

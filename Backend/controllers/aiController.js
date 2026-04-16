@@ -6,12 +6,12 @@ const { sendTripGeneratedEmail } = require('../services/emailService')
 // POST /api/ai/itinerary
 const generateItinerary = async (req, res, next) => {
   try {
-    const { destination, days, budget, currency = 'INR', travelers = 1, tripType = 'Cultural' } = req.body
+    const { origin, destination, days, budget, currency = 'INR', travelers = 1, tripType = 'Cultural', preferredTransport = 'Flight' } = req.body
 
     if (!destination || !days || !budget)
       return res.status(400).json({ success: false, message: 'destination, days, and budget are required' })
 
-    const itineraryData = await gemini.generateItinerary({ destination, days, budget, currency, travelers, tripType })
+    const itineraryData = await gemini.generateItinerary({ origin, destination, days, budget, currency, travelers, tripType, preferredTransport })
 
     // Save to DB as a planning trip
     const trip = await Trip.create({

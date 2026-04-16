@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Plane, Hotel, CheckCircle2, Loader2, Sparkles, ExternalLink, CalendarDays } from 'lucide-react'
+import { Plane, Hotel, CheckCircle2, Loader2, Sparkles, ExternalLink, CalendarDays, Train } from 'lucide-react'
 import toast from 'react-hot-toast'
 import clsx from 'clsx'
 import { tripsAPI } from '../services/api'
 import PageWrapper from '../components/Layout/PageWrapper'
 
-const TABS = ['flights', 'hotels', 'my bookings']
+const TABS = ['flights', 'hotels', 'trains', 'my bookings']
 
 const flightProviders = [
   { id: 'mmt', name: 'MakeMyTrip', label: 'Best Price', desc: 'Best deals on domestic flights', icon: 'M', color: 'text-rose-500', bg: 'bg-rose-50 border-rose-200' },
@@ -17,6 +17,12 @@ const hotelProviders = [
   { id: 'oyo', name: 'OYO', label: 'Budget Stay', desc: 'Affordable stays everywhere', icon: 'O', color: 'text-red-500', bg: 'bg-red-50 border-red-200' },
   { id: 'mmt_hotel', name: 'MakeMyTrip Hotels', label: 'Best Deals', desc: 'Top rated hotels', icon: 'M', color: 'text-blue-500', bg: 'bg-blue-50 border-blue-200' },
   { id: 'booking', name: 'Booking.com', label: 'Premium', desc: 'Luxury & comfort', icon: 'B', color: 'text-indigo-600', bg: 'bg-indigo-50 border-indigo-200' },
+]
+
+const trainProviders = [
+  { id: 'irctc', name: 'IRCTC', label: 'Official', desc: 'Indian Railways official booking', icon: 'I', color: 'text-orange-600', bg: 'bg-orange-50 border-orange-200' },
+  { id: 'mmt_train', name: 'MakeMyTrip Trains', label: 'Easy Booking', desc: 'Hassle-free train tickets', icon: 'M', color: 'text-rose-500', bg: 'bg-rose-50 border-rose-200' },
+  { id: 'paytm_train', name: 'Paytm Trains', label: 'Cashback', desc: 'Get cashback on bookings', icon: 'P', color: 'text-blue-500', bg: 'bg-blue-50 border-blue-200' },
 ]
 
 export default function Bookings() {
@@ -50,6 +56,14 @@ export default function Bookings() {
       } else {
         url = `https://www.cleartrip.com/flights`
       }
+    } else if (providerType === 'train') {
+      if (p.id === 'irctc') {
+        url = `https://www.irctc.co.in/`
+      } else if (p.id === 'mmt_train') {
+        url = `https://www.makemytrip.com/railways/`
+      } else {
+        url = `https://tickets.paytm.com/trains/`
+      }
     } else {
       if (p.id === 'oyo') {
         url = `https://www.oyorooms.com/`
@@ -73,6 +87,13 @@ export default function Bookings() {
     if (sortBy === 'price') return a.id === 'oyo' ? -1 : 1
     if (sortBy === 'popular') return a.id === 'mmt_hotel' ? -1 : 1
     if (sortBy === 'fastest') return a.id === 'booking' ? -1 : 1
+    return 0
+  })
+
+  const sortedTrainProviders = [...trainProviders].sort((a, b) => {
+    if (sortBy === 'price') return a.id === 'irctc' ? -1 : 1
+    if (sortBy === 'popular') return a.id === 'mmt_train' ? -1 : 1
+    if (sortBy === 'fastest') return a.id === 'paytm_train' ? -1 : 1
     return 0
   })
 
@@ -181,6 +202,50 @@ export default function Bookings() {
                       className="w-full py-3.5 rounded-xl bg-white/50 backdrop-blur-md border border-white/40 text-indigo-600 text-sm font-extrabold hover:bg-gradient-to-r hover:from-indigo-600 hover:to-violet-600 hover:text-white hover:border-transparent transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:shadow-indigo-500/25"
                     >
                       Find Hotel <ExternalLink size={14} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {tab === 'trains' && (
+            <div className="animate-fade-in shadow-sm w-full mx-auto">
+              <div className="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
+                <div className="flex items-center gap-2 font-bold text-lg text-orange-600 tracking-tight">
+                  <Sparkles size={20} className="animate-pulse" /> Partner Train Deals
+                </div>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="bg-slate-50 border border-slate-200 text-slate-700 font-semibold text-sm rounded-xl px-4 py-2.5 outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-400/20 shadow-sm"
+                >
+                  <option value="price">Sort by: Best Price</option>
+                  <option value="popular">Sort by: Popular</option>
+                  <option value="fastest">Sort by: Fastest</option>
+                </select>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-6">
+                {sortedTrainProviders.map(p => (
+                  <div key={p.id} className="glass-card rounded-2xl p-6 hover:border-orange-300 transition-all flex flex-col justify-between gap-6 relative overflow-hidden group hover:-translate-y-1 cursor-pointer">
+                    <span className="absolute top-0 right-0 bg-gradient-to-bl from-orange-100 to-white border-l border-b border-orange-200/60 px-4 py-2 text-[10px] rounded-bl-[14px] font-extrabold text-orange-700 tracking-widest uppercase shadow-sm">
+                      {p.label}
+                    </span>
+                    <div className="flex gap-5 items-center pt-3">
+                      <div className={clsx("w-16 h-16 rounded-2xl flex items-center justify-center font-black text-3xl shadow-sm border bg-white backdrop-blur-md", p.color)}>
+                        {p.icon}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-extrabold text-base text-slate-800 truncate tracking-tight">{p.name}</h4>
+                        <p className="text-xs text-slate-500 font-semibold leading-relaxed mt-1">{p.desc}</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => handleProviderClick('train', p)}
+                      className="w-full py-3.5 rounded-xl bg-white/50 backdrop-blur-md border border-white/40 text-orange-600 text-sm font-extrabold hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-500 hover:text-white hover:border-transparent transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:shadow-orange-500/25"
+                    >
+                      Book Train <ExternalLink size={14} />
                     </button>
                   </div>
                 ))}

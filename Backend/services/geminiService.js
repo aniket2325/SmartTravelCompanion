@@ -13,22 +13,24 @@ const getClient = () => {
 /**
  * Generate a full day-wise travel itinerary using Gemini
  */
-const generateItinerary = async ({ destination, days, budget, currency, travelers, tripType }) => {
+const generateItinerary = async ({ origin, destination, days, budget, currency, travelers, tripType, preferredTransport }) => {
   const model = getClient().getGenerativeModel({ model: 'gemini-3-flash-preview' })
 
   const prompt = `
 You are an expert travel planner. Generate a detailed ${days}-day travel itinerary for the following trip.
 
 Trip Details:
-- Destination: ${destination}
+${origin ? `- Origin (From): ${origin}` : ''}
+- Destination (To): ${destination}
 - Duration: ${days} days
 - Total Budget: ${currency} ${budget}
 - Number of Travellers: ${travelers}
 - Trip Type: ${tripType}
+- Preferred Transport: ${preferredTransport} (Please optimize the travel segments of the itinerary based on distance, cost, and this preferred mode of transport)
 
 Return ONLY a valid JSON object (no markdown, no code blocks) with this exact structure:
 {
-  "destination": "string",
+  "destination": "string (format as 'From [Origin] to [Destination]' if origin exists, else just Destination)",
   "summary": "2-sentence trip overview",
   "days": [
     {
